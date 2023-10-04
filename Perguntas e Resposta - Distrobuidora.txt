@@ -1,0 +1,64 @@
+Como inserir um novo item de nota fiscal na tabela item_nota?
+
+INSERT INTO item_nota (cod_nota_fiscal, cod_produto, quantidade, valor)
+VALUES (11, 22, 3, 15.99); -- Substitua os valores pelos desejados
+
+Qual é o comando SQL para selecionar todos os funcionários que foram contratados no ano de 2000?
+
+SELECT * FROM funcionario WHERE ano_contratacao = 2000;
+
+Como selecionar o valor total das vendas realizadas por cada funcionário?
+
+SELECT nf.Cod_Funcionario, SUM(inf.Valor) AS Valor_Total_Vendas
+FROM nota_fiscal nf
+JOIN item_nota inf ON nf.Cod_Nota_Fiscal = inf.Cod_Nota_Fiscal
+GROUP BY nf.Cod_Funcionario;
+
+Qual é o comando SQL correto para inserir um novo funcionário na tabela funcionario?
+
+INSERT INTO funcionario (cod_funcionario, cod_cargo, nome, cidade, ano_contratacao)
+VALUES (11, 3, 'Maria Silva', 'Joinville', 2021); -- Substitua os valores pelos desejados
+
+Qual é o comando SQL para selecionar todos os funcionários com salário base maior que 500?
+
+SELECT * FROM cargo WHERE salario_base > 500;
+
+Qual é o comando SQL para listar a quantidade total de produtos vendidos de cada tipo de produto?
+
+SELECT tp.Nome AS Tipo_Produto, SUM(inf.Quantidade) AS Quantidade_Total
+FROM tipo_produto tp
+LEFT JOIN produto p ON tp.Cod_Tipo_Produto = p.Cod_Tipo_Produto
+LEFT JOIN item_nota inf ON p.Cod_Produto = inf.Cod_Produto
+GROUP BY tp.Nome;
+
+Como selecionar a quantidade total de produtos vendidos em todas as notas fiscais?
+
+SELECT SUM(Quantidade) AS Quantidade_Total_Vendida FROM item_nota;
+
+Qual é o comando SQL para listar todos os produtos junto com o nome do tipo de produto?
+
+SELECT p.Nome AS Nome_Produto, tp.Nome AS Tipo_Produto
+FROM produto p
+INNER JOIN tipo_produto tp ON p.Cod_Tipo_Produto = tp.Cod_Tipo_Produto;
+
+Qual é o comando que mostra qual transportadora fez mais entregas?
+
+SELECT nf.Cod_Transportadora, t.Nome AS Nome_Transportadora, COUNT(nf.Cod_Nota_Fiscal) AS Total_Entregas
+FROM nota_fiscal nf
+LEFT JOIN transportadora t ON nf.Cod_Transportadora = t.Cod_Transportadora
+GROUP BY nf.Cod_Transportadora, t.Nome
+ORDER BY Total_Entregas DESC
+LIMIT 1;
+
+Qual é o comando que mostra os 10 produtos que mais sairam?
+
+SELECT p.Cod_Produto, p.Nome AS Nome_Produto, SUM(inf.Quantidade) AS Total_Vendido
+FROM produto p
+LEFT JOIN item_nota inf ON p.Cod_Produto = inf.Cod_Produto
+GROUP BY p.Cod_Produto, p.Nome
+ORDER BY Total_Vendido DESC
+LIMIT 10;
+
+Qual é o comando que mostra o valor total das NFs?
+
+SELECT SUM(Valor_Frete) AS Valor_Total_NFs FROM nota_fiscal;
